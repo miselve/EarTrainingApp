@@ -26,6 +26,9 @@ export function ScoreTab({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.buttonText}>Home</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Theory')}>
+          <Text style={styles.buttonText}>Theory</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
