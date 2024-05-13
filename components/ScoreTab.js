@@ -2,10 +2,17 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 
-export function ScoreTab({ navigation }) {
+export function ScoreTab({ navigation, route }) {
+  //let score = route && route.params !== null && route.params?.score !== undefined ? route.params?.score : 0;
+  let score = route.params?.score
+  if (score == undefined){
+    score = 0
+  }
+  console.log('Received Score:', score);
+  
   const pieData = [
-    { value: 20, color: '#177AD5' },
-    { value: 80, color: 'lightgray' }
+    { value: score, color: '#177AD5' },
+    { value: 100 - (score), color: 'lightgray' }
   ];
 
   return (
@@ -16,11 +23,11 @@ export function ScoreTab({ navigation }) {
         innerRadius={100}
         data={pieData}
         centerLabelComponent={() => {
-          return <Text style={{ fontSize: 30 }}>20%</Text>;
+          return <Text style={{ fontSize: 30 }}>{score}</Text>;
         }}
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Quiz')}>
           <Text style={styles.buttonText}>Try Again</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
