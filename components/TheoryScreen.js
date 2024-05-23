@@ -9,13 +9,30 @@ import {
 } from "react-native";
 import Accordion from "./structs/Accordion";
 import Labelrow from "./structs/Labelrow";
+import Notes from "./structs/Notes";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Foundation from '@expo/vector-icons/Foundation';
+import Foundation from "@expo/vector-icons/Foundation";
+
 export function TheoryScreen({ navigation }) {
+  const [expandedAccordion, setExpandedAccordion] = useState(null);
+
+  const toggleAccordion = (index) => {
+    setExpandedAccordion(expandedAccordion === index ? null : index);
+  };
+
+  const closeOthers = (index) => {
+    const closeOthers = (index) => {
+      for (let i = 0; i < 3; i++) {
+        if (i !== index) {
+          setExpandedAccordion(null);
+        }
+      }
+    
+    }
+  };
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("Home")}
@@ -25,17 +42,11 @@ export function TheoryScreen({ navigation }) {
       </View>
       <Labelrow labeltext={"(interval type) ascending"} />
       <View>
-        <Image
-          source={require("../assets/notes.png")}
-          style={{ width: 550, height: 50 }}
-        />
+        <Notes note1="c" note2="g" />
         <Labelrow labeltext={"(interval type) decending"} />
-        <Image
-          source={require("../assets/notes.png")}
-          style={{ width: 550, height: 50 }}
-        />
-        <View style={styles.container}>
-          <Accordion title="Theory Section 1" content="Content of section 1" />
+        <Notes note1="c" note2="Hc" />
+        <View style={styles.accordionContainer}>
+        <Accordion title="Theory Section 1" content="Content of section 1" />
           <Accordion title="Theory Section 2" content="Content of section 2" />
           <Accordion
             title="Related Tracks    "
@@ -47,7 +58,7 @@ export function TheoryScreen({ navigation }) {
           />
         </View>
       </View>
-      <View style={styles.container3}>
+      <View style={styles.buttonContainer1}>
       <TouchableOpacity
         onPress={() => console.log("Play button clicked")}
         style={styles.iconContainer}
@@ -60,12 +71,22 @@ export function TheoryScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     paddingVertical: "5%",
     paddingHorizontal: "20%",
     width: "100%",
+  },
+  buttonContainer1: {
+    position: "absolute",
+    bottom: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   button: {
     backgroundColor: "#2196F3",
@@ -82,23 +103,10 @@ const styles = StyleSheet.create({
     textAlign: "center", // Center the text
     flex: 1,
   },
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
+  accordionContainer: {
+    marginTop: 20, // Adjust as needed
   },
   iconContainer: {
     marginLeft: 0, // Adjust as needed
-  },
-  container2: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16, // Adjust as needed
-  },
-  container3: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    paddingHorizontal: 16, // Adjust as needed
   },
 });
