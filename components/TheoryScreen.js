@@ -14,22 +14,19 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Foundation from "@expo/vector-icons/Foundation";
 
 export function TheoryScreen({ navigation }) {
-  const [expandedAccordion, setExpandedAccordion] = useState(null);
-
-  const toggleAccordion = (index) => {
-    setExpandedAccordion(expandedAccordion === index ? null : index);
-  };
-
-  const closeOthers = (index) => {
-    const closeOthers = (index) => {
-      for (let i = 0; i < 3; i++) {
-        if (i !== index) {
-          setExpandedAccordion(null);
-        }
-      }
-    
-    }
-  };
+  const accordionData = [
+    { title: "Accordion 1", content: "Content for accordion 1" },
+    { title: "Accordion 2", content: "Content for accordion 2" },
+    {
+      title: "Accordion 3",
+      content: (
+        <View>
+          <Labelrow labeltext={"track 1   "} />
+          <Labelrow labeltext={"track 2   "} />
+        </View>
+      ),
+    },
+  ];
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -46,25 +43,16 @@ export function TheoryScreen({ navigation }) {
         <Labelrow labeltext={"(interval type) decending"} />
         <Notes note1="c" note2="Hc" />
         <View style={styles.accordionContainer}>
-        <Accordion title="Theory Section 1" content="Content of section 1" />
-          <Accordion title="Theory Section 2" content="Content of section 2" />
-          <Accordion
-            title="Related Tracks    "
-            content={<View>
-              <Labelrow labeltext={"track 1   "}/>
-              <Labelrow labeltext={"track 2   "}/>
-              </View>
-            }
-          />
+          <Accordion data={accordionData} />
         </View>
       </View>
       <View style={styles.buttonContainer1}>
-      <TouchableOpacity
-        onPress={() => console.log("Play button clicked")}
-        style={styles.iconContainer}
-      >
-        <Foundation name="next" size={60} color="black" />
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log("Play button clicked")}
+          style={styles.iconContainer}
+        >
+          <Foundation name="next" size={60} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );
