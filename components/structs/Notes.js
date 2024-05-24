@@ -4,21 +4,31 @@ import { Text, View, Image, StyleSheet } from "react-native";
 // Function to dynamically require images based on note name
 const getNoteImage = (note) => {
   switch (note) {
-    case "c":
+    case 1:
       return require("../../assets/c.png");
-    case "d":
+    case 2:
+      return require("../../assets/cS.png");
+    case 3:
       return require("../../assets/d.png");
-    case "e":
+    case 4:
+      return require("../../assets/dS.png");
+    case 5:
       return require("../../assets/e.png");
-    case "f":
+    case 6:
       return require("../../assets/f.png");
-    case "g":
+    case 7:
+      return require("../../assets/fS.png");
+    case 8:
       return require("../../assets/g.png");
-    case "a":
+    case 9:
+      return require("../../assets/gS.png");
+    case 10:
       return require("../../assets/a.png");
-    case "b":
+    case 11:
+      return require("../../assets/aS.png");
+    case 12:
       return require("../../assets/b.png");
-    case "Hc":
+    case 13:
       return require("../../assets/Hc.png");
     // Add cases for other notes as needed
     default:

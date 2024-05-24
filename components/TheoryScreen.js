@@ -14,11 +14,20 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Foundation from "@expo/vector-icons/Foundation";
 
 export function TheoryScreen({ navigation }) {
+  
+  const [noteValue1, setNote1Value] = useState(1);
+  const [noteValue2, setNote2Value] = useState(1);
+  const [strings, setStrings] = useState(['Perfect unison', 'Minor second', 'Major second','Minor third', 'Major third', 'Perfect fourth','Tritone', 'Perfect fifth', 'Minor sixth','Major sixth', 'Minor seventh', 'Major seventh','Perfect octave']);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const changeString = () => {
+    // Update the index to the next one, wrapping around if needed
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % strings.length);
+  };
   const accordionData = [
-    { title: "Accordion 1", content: "Content for accordion 1" },
-    { title: "Accordion 2", content: "Content for accordion 2" },
+    { title: (strings[currentIndex] +" ascending Theory"), content: "Content for accordion 1" },
+    { title: (strings[currentIndex] +" descending Theory"), content: "Content for accordion 2" },
     {
-      title: "Accordion 3",
+      title: "Related Tracks",
       content: (
         <View>
           <Labelrow labeltext={"track 1   "} />
@@ -37,18 +46,26 @@ export function TheoryScreen({ navigation }) {
           <Text style={styles.buttonText}>Home</Text>
         </TouchableOpacity>
       </View>
-      <Labelrow labeltext={"(interval type) ascending"} />
+      <Labelrow labeltext={strings[currentIndex] +" ascending"} />
       <View>
-        <Notes note1="c" note2="g" />
-        <Labelrow labeltext={"(interval type) decending"} />
-        <Notes note1="c" note2="Hc" />
+        <Notes note1={noteValue1} note2={noteValue2} />
+        <Labelrow labeltext={strings[currentIndex] +" decending"} />
+        <Notes note1={noteValue2} note2={noteValue1} />
         <View style={styles.accordionContainer}>
           <Accordion data={accordionData} />
         </View>
       </View>
       <View style={styles.buttonContainer1}>
         <TouchableOpacity
-          onPress={() => console.log("Play button clicked")}
+          onPress={() => {
+            if (noteValue2 == 13) {
+              setNote2Value(1);
+              changeString();
+            } else {
+              setNote2Value(noteValue2 + 1);
+              changeString();
+            }
+          }}
           style={styles.iconContainer}
         >
           <Foundation name="next" size={60} color="black" />
