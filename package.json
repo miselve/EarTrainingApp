@@ -12,6 +12,7 @@
     "@react-navigation/drawer": "*",
     "@react-navigation/native": "*",
     "expo": "~51.0.0",
+    "expo-av": "~14.0.5",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
@@ -27,8 +28,7 @@
     "react-native-screens": "3.31.1",
     "react-native-sound": "^0.11.2",
     "react-native-svg": "15.2.0-rc.0",
-    "react-native-web": "~0.19.10",
-    "expo-av": "~14.0.5"
+    "react-native-web": "~0.19.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

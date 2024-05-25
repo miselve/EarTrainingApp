@@ -39,17 +39,17 @@ export function TheoryScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
+        {/*<TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonText}>Home</Text>
-        </TouchableOpacity>
+  </TouchableOpacity>*/}
       </View>
-      <Labelrow labeltext={strings[currentIndex] +" ascending"} />
+      <Labelrow labeltext={strings[currentIndex] +" ascending"} firstNote={0} secondNote={noteValue2-1} />
       <View>
         <Notes note1={noteValue1} note2={noteValue2} />
-        <Labelrow labeltext={strings[currentIndex] +" decending"} />
+        <Labelrow labeltext={strings[currentIndex] +" decending"} firstNote={noteValue2-1} secondNote={0} />
         <Notes note1={noteValue2} note2={noteValue1} />
         <View style={styles.accordionContainer}>
           <Accordion data={accordionData} />
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 20, // Adjust as needed
   },
   iconContainer: {
-    marginLeft: 0, // Adjust as needed
+    marginLeft: "10%", // Adjust as needed
+    
   },
 });

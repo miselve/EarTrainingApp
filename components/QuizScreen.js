@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Audio } from 'expo-av';
 
 // Sound files for each note
-const soundFiles = {
+export const soundFiles = {
   0: require('../assets/sounds/0.wav'),
   1: require('../assets/sounds/1.wav'),
   2: require('../assets/sounds/2.wav'),
@@ -16,6 +16,7 @@ const soundFiles = {
   9: require('../assets/sounds/9.wav'),
   10: require('../assets/sounds/10.wav'),
   11: require('../assets/sounds/11.wav'),
+  12: require('../assets/sounds/12.wav'),
 };
 
 // Function to play a sound
