@@ -7,25 +7,25 @@ const getNoteImage = (note) => {
     case 1:
       return require("../../assets/c.png");
     case 2:
-      return require("../../assets/cS.png");
+      return require("../../assets/dF.png");
     case 3:
       return require("../../assets/d.png");
     case 4:
-      return require("../../assets/dS.png");
+      return require("../../assets/eF.png");
     case 5:
       return require("../../assets/e.png");
     case 6:
       return require("../../assets/f.png");
     case 7:
-      return require("../../assets/fS.png");
+      return require("../../assets/gF.png");
     case 8:
       return require("../../assets/g.png");
     case 9:
-      return require("../../assets/gS.png");
+      return require("../../assets/aF.png");
     case 10:
       return require("../../assets/a.png");
     case 11:
-      return require("../../assets/aS.png");
+      return require("../../assets/bF.png");
     case 12:
       return require("../../assets/b.png");
     case 13:
