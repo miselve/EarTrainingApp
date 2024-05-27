@@ -17,6 +17,18 @@ export const soundFiles = {
   10: require('../assets/sounds/10.wav'),
   11: require('../assets/sounds/11.wav'),
   12: require('../assets/sounds/12.wav'),
+  13: require('../assets/sounds/13.wav'),
+  14: require('../assets/sounds/14.wav'),
+  15: require('../assets/sounds/15.wav'),
+  16: require('../assets/sounds/16.wav'),
+  17: require('../assets/sounds/17.wav'),
+  18: require('../assets/sounds/18.wav'),
+  19: require('../assets/sounds/19.wav'),
+  20: require('../assets/sounds/20.wav'),
+  21: require('../assets/sounds/21.wav'),
+  22: require('../assets/sounds/22.wav'),
+  23: require('../assets/sounds/23.wav'),
+  24: require('../assets/sounds/24.wav'),
 };
 
 // Function to play a sound
@@ -25,6 +37,11 @@ const playSound = async (note) => {
   try {
     await soundObject.loadAsync(soundFiles[note]);
     await soundObject.playAsync();
+    soundObject.setOnPlaybackStatusUpdate(status => {
+      if (status.didJustFinish) {
+        soundObject.unloadAsync();
+      }
+    });
   } catch (error) {
     console.log('Error playing sound:', error);
   }
@@ -39,7 +56,6 @@ export default function QuizScreen({ navigation }) {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    // Set audio mode and unload sound when unmounting
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
@@ -53,67 +69,78 @@ export default function QuizScreen({ navigation }) {
     };
 
     setupAudio();
-
-    return () => {
-      Audio.Sound.unloadAsync();
-    };
   }, []);
 
   // Function to generate a random integer within a range
-  const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
+  function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+  }
 
   // Function to generate a random interval
-  const generateRandomInterval = () => {
-    const note1 = getRandomInt(0, 11); // Randomly select first note (0 to 11 represents 12 notes)
-    let note2 = getRandomInt(0, 11); // Randomly select second note
-    while (note2 === note1) {
-      // Ensure the second note is different from the first one
-      note2 = getRandomInt(0, 11);
+  const generateRandomInterval = (
+  ) => {
+
+    isAscending = Math.random() < 0.5;
+
+    if (isAscending) {
+      note1 = getRandomInt(0, 12);
+      interval = getRandomInt(0, 12);
+      note2 = note1 + interval;
+
+    } else {
+      note1 = getRandomInt(12, 24);
+      interval = getRandomInt(0, 12);
+      note2 = note1 - interval;
     }
 
-    // Calculate the interval between the two notes
-    const interval = (note2 - note1 + 12) % 12;
-
+    console.log("note1 " + note1 + " note " + note2 + " interval" + interval);
     return { note1, note2, interval };
   };
 
-  // Function to generate question
-// Function to generate question
-const generateQuestion = () => {
-  const { note1, note2, interval } = generateRandomInterval();
-
-  // Define possible interval names
-  const intervalNames = ['Unison', 'Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Tritone', 'Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave'];
-
-  // Shuffle the interval names array
-  const shuffledIntervalNames = intervalNames.sort(() => Math.random() - 0.5);
-
-  // Select the correct answer
-  const correctAnswer = intervalNames[interval];
-
-  // Select three incorrect answers (ensure they are not the correct answer)
-  const incorrectAnswers = shuffledIntervalNames.filter(name => name !== correctAnswer).slice(0, 3);
-
-  // Combine correct and incorrect answers
-  const answers = [correctAnswer, ...incorrectAnswers];
-
-  // Shuffle the answers array
-  const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
-  // Construct question object
-  const question = {
-    question: `What is the interval between the two notes?`,
-    answers: shuffledAnswers,
-    correctAnswer,
-    note1,
-    note2,
+  // Function to shuffle array
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   };
 
-  return question;
-};
+  // Function to generate question
+  const generateQuestion = () => {
+    const { note1, note2, interval } = generateRandomInterval();
 
+    // Define possible interval names
+    const intervalNames = ['Unison', 'Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Tritone', 'Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave'];
+
+    // Select the correct answer
+    const correctAnswer = intervalNames[interval];
+
+    // Select three unique incorrect answers
+    const incorrectAnswers = [];
+    while (incorrectAnswers.length < 3) {
+      const incorrectAnswer = intervalNames[getRandomInt(0, intervalNames.length - 1)];
+      if (incorrectAnswer !== correctAnswer && !incorrectAnswers.includes(incorrectAnswer)) {
+        incorrectAnswers.push(incorrectAnswer);
+      }
+    }
+
+    // Combine correct and incorrect answers
+    const answers = shuffleArray([correctAnswer, ...incorrectAnswers]);
+
+    // Construct question object
+    const question = {
+      question: `What is the interval between the two notes?`,
+      answers,
+      correctAnswer,
+      note1,
+      note2,
+    };
+
+    return question;
+  };
 
   // Function to generate multiple questions
   const generateQuestions = (count) => {
@@ -139,12 +166,10 @@ const generateQuestion = () => {
   };
 
   const goToNextQuestion = () => {
-    console.log(questions[currentQuestion])
     const isCorrect = questions[currentQuestion].correctAnswer === selectedAnswer;
 
     if (isCorrect) {
-      const newScore = score + 10;
-      setScore(newScore);
+      setScore(score + 10);
     }
 
     if (currentQuestion < questions.length - 1) {
@@ -179,65 +204,63 @@ const generateQuestion = () => {
     }, 500);
   };
 
-  return ( <View style={styles.container}>
-  {!quizStarted && !completed && (
-    <>
-      <Text style={styles.title}>Ear Training Quiz</Text>
-      <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
-        <Text style={styles.buttonText}>Start Quiz</Text>
-      </TouchableOpacity>
-    </>
-  )}
-  {quizStarted && !completed && (
-    <>
-      <Text style={styles.question}>{questions[currentQuestion].question}</Text>
-      <TouchableOpacity style={styles.playButton} onPress={handlePlayInterval}>
-        <Text style={styles.buttonText}>Play Interval</Text>
-      </TouchableOpacity>
-      {questions[currentQuestion].answers.map((answer, index) => (
-        <TouchableOpacity
-          key={index}
-          style={[
-            styles.answerButton,
-            {
-              backgroundColor:
-                selectedAnswer === answer ? 'lightblue' : 'white',
-            },
-          ]}
-          onPress={() => handleAnswer(answer)}
-          disabled={selectedAnswer !== null}
-        >
-          <Text>{answer}</Text>
-        </TouchableOpacity>
-      ))}
-      <View style={styles.navigation}>
-        <TouchableOpacity onPress={goToPreviousQuestion}>
-          <Text>Previous</Text>
-        </TouchableOpacity>
-        <Text>
-          {currentQuestion + 1}/{questions.length} Question
-        </Text>
-        <TouchableOpacity
-          onPress={goToNextQuestion}
-          disabled={selectedAnswer === null}>
-          <Text>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </>
-  )}
-  {completed && (
-    <>
-      <Text style={styles.title}>Quiz Completed!</Text>
-      <TouchableOpacity style={styles.button} onPress={handleViewScore}>
-        <Text style={styles.buttonText}>View Score</Text>
-      </TouchableOpacity>
-    </>
-  )}
-</View>
-);
+  return (
+    <View style={styles.container}>
+      {!quizStarted && !completed && (
+        <>
+          <Text style={styles.title}>Ear Training Quiz</Text>
+          <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
+            <Text style={styles.buttonText}>Start Quiz</Text>
+          </TouchableOpacity>
+        </>
+      )}
+      {quizStarted && !completed && (
+        <>
+          <Text style={styles.question}>{questions[currentQuestion].question}</Text>
+          <TouchableOpacity style={styles.playButton} onPress={handlePlayInterval}>
+            <Text style={styles.buttonText}>Play Interval</Text>
+          </TouchableOpacity>
+          {questions[currentQuestion].answers.map((answer, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.answerButton,
+                {
+                  backgroundColor: selectedAnswer === answer ? 'lightblue' : 'white',
+                },
+              ]}
+              onPress={() => handleAnswer(answer)}
+              disabled={selectedAnswer !== null}
+            >
+              <Text>{answer}</Text>
+            </TouchableOpacity>
+          ))}
+          <View style={styles.navigation}>
+            {/*<TouchableOpacity onPress={goToPreviousQuestion}>
+              <Text>Previous</Text>
+            </TouchableOpacity>
+            <Text>
+              {currentQuestion + 1}/{questions.length} Question
+            </Text> */}
+            <TouchableOpacity
+              onPress={goToNextQuestion}
+              disabled={selectedAnswer === null}>
+              <Text>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+      {completed && (
+        <>
+          <Text style={styles.title}>Quiz Completed!</Text>
+          <TouchableOpacity style={styles.button} onPress={handleViewScore}>
+            <Text style={styles.buttonText}>View Score</Text>
+          </TouchableOpacity>
+        </>
+      )}
+    </View>
+  );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
