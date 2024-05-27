@@ -11,12 +11,14 @@ import Accordion from "./structs/Accordion";
 import Labelrow from "./structs/Labelrow";
 import Notes from "./structs/Notes";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Foundation from "@expo/vector-icons/Foundation";
 import { PieChart } from "react-native-gifted-charts";
+import Labelrow2 from "./structs/Labelrow2";
 
 export function TheoryScreen({ navigation }) {
-  const [noteValue1, setNote1Value] = useState(1);
-  const [noteValue2, setNote2Value] = useState(1);
+  const [backwardOpacity1, setBackwardOpacity1] = useState(0.5);
+  const [backwardOpacity2, setBackwardOpacity2] = useState(1);
+  const [noteValue1, setNote1Value] = useState(0);
+  const [noteValue2, setNote2Value] = useState(0);
   const [strings, setStrings] = useState([
     "Perfect unison",
     "Minor second",
@@ -53,8 +55,36 @@ export function TheoryScreen({ navigation }) {
     { value: 100, color: "lightgray" },
   ]);
 
-  const changeString = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % strings.length);
+  const changeString1 = () => {
+    if (noteValue2 == 0) {
+      setCurrentIndex(0);
+      setBackwardOpacity1(0.5);
+    } else {
+      setCurrentIndex((prevIndex) => (prevIndex - 1) % strings.length);
+      setBackwardOpacity1(1);
+    }
+    if (noteValue2 >= 0) {
+      
+      setBackwardOpacity2(1);
+    }
+    if (noteValue2 == 1) {
+      setBackwardOpacity1(0.5);
+    }
+  };
+  const changeString2 = () => {
+    if (noteValue2 == 12) {
+      setCurrentIndex(12);
+      setBackwardOpacity2(0.5);
+    } else {
+      setCurrentIndex(
+        (prevIndex) => (prevIndex + 1)
+      );
+      setBackwardOpacity2(1);
+      setBackwardOpacity1(1);
+    }
+    if (noteValue2 == 11) {
+      setBackwardOpacity2(0.5);
+    }
   };
 
   const accordionData = [
@@ -70,15 +100,15 @@ export function TheoryScreen({ navigation }) {
       title: "Related Tracks",
       content: (
         <View>
-          <Labelrow labeltext={"track 1   "} />
-          <Labelrow labeltext={"track 2   "} />
+          <Labelrow2 labeltext={"track 1   "} />
+          <Labelrow2 labeltext={"track 2   "} />
         </View>
       ),
     },
   ];
 
   useEffect(() => {
-    const completionPercentage = Math.floor((100 * (noteValue2 - 1)) / 12);
+    const completionPercentage = Math.floor((100 * noteValue2) / 12);
     setPieData([
       { value: completionPercentage, color: "#177AD5" },
       { value: 100 - completionPercentage, color: "lightgray" },
@@ -115,17 +145,31 @@ export function TheoryScreen({ navigation }) {
       <View style={styles.buttonContainer1}>
         <TouchableOpacity
           onPress={() => {
-            if (noteValue2 === 13) {
-              setNote2Value(1);
-              changeString();
+            if (noteValue2 === 0) {
+              setNote2Value(0);
+              changeString1();
             } else {
-              setNote2Value(noteValue2 + 1);
-              changeString();
+              setNote2Value(noteValue2 - 1);
+              changeString1();
             }
           }}
-          style={styles.iconContainer}
+          style={[styles.iconContainer1, { opacity: backwardOpacity1 }]}
         >
-          <Foundation name="next" size={60} color="black" />
+          <AntDesign name="banckward" size={35} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (noteValue2 === 12) {
+              setNote2Value(12);
+              changeString2();
+            } else {
+              setNote2Value(noteValue2 + 1);
+              changeString2();
+            }
+          }}
+          style={[styles.iconContainer2, { opacity: backwardOpacity2 }]}
+        >
+          <AntDesign name="forward" size={35} color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer2}>
@@ -138,7 +182,7 @@ export function TheoryScreen({ navigation }) {
           centerLabelComponent={() => {
             return (
               <Text style={{ fontSize: 30 }}>
-                {Math.floor((100 * (noteValue2 - 1)) / 12) + "%"}
+                {Math.floor((100 * noteValue2) / 12) + "%"}
               </Text>
             );
           }}
@@ -160,8 +204,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   buttonContainer1: {
+    flexDirection: "row",
     position: "absolute",
-    bottom: "3%",
+    bottom: "4.6%",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -170,7 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     bottom: 10,
-    right: 10,
+    right: 0,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -199,7 +244,10 @@ const styles = StyleSheet.create({
   accordionContainer: {
     marginTop: 20,
   },
-  iconContainer: {
-    marginLeft: "10%",
+  iconContainer1: {
+    marginLeft: 0,
+  },
+  iconContainer2: {
+    marginLeft: 15,
   },
 });

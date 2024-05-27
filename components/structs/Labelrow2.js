@@ -1,11 +1,19 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons"; // Assuming you're using Expo for icons
+import { Audio } from "expo-av";
+import { soundFiles } from "../QuizScreen";
+import { playSound } from "./Labelrow";
+// Mapping of note names to their corresponding sound files
 
 
-const Labelrow = ({ labeltext, firstNote, secondNote }) => {
+const Labelrow2 = ({ labeltext, firstNote, secondNote }) => {
   return (
     <View style={styles.container2}>
       <Text style={styles.TitleLabel}>{labeltext}</Text>
+      <TouchableOpacity onPress={() => playSound(firstNote, secondNote)} style={styles.iconContainer}>
+        <AntDesign name="play" size={24} color="#2196F3" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -26,8 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16, // Adjust as needed
-    marginBottom: 10,
   },
 });
 
-export default Labelrow;
+export default Labelrow2;
