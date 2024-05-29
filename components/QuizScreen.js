@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 import { Audio } from 'expo-av';
 
 // Sound files for each note
@@ -54,6 +55,7 @@ export default function QuizScreen({ navigation }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [maxInterval, setMaxInterval] = useState(5);
 
   useEffect(() => {
     const setupAudio = async () => {
@@ -79,23 +81,21 @@ export default function QuizScreen({ navigation }) {
   }
 
   // Function to generate a random interval
-  const generateRandomInterval = (
-  ) => {
-
-    isAscending = Math.random() < 0.5;
+  const generateRandomInterval = () => {
+    const isAscending = Math.random() < 0.5;
+    let note1, note2, interval;
 
     if (isAscending) {
       note1 = getRandomInt(0, 12);
-      interval = getRandomInt(0, 12);
+      interval = getRandomInt(0, maxInterval);
       note2 = note1 + interval;
-
     } else {
       note1 = getRandomInt(12, 24);
-      interval = getRandomInt(0, 12);
+      interval = getRandomInt(0, maxInterval);
       note2 = note1 - interval;
     }
 
-    console.log("note1 " + note1 + " note " + note2 + " interval" + interval);
+    console.log("note1 " + note1 + " note2 " + note2 + " interval " + interval);
     return { note1, note2, interval };
   };
 
@@ -121,7 +121,7 @@ export default function QuizScreen({ navigation }) {
     // Select three unique incorrect answers
     const incorrectAnswers = [];
     while (incorrectAnswers.length < 3) {
-      const incorrectAnswer = intervalNames[getRandomInt(0, intervalNames.length - 1)];
+      const incorrectAnswer = intervalNames[getRandomInt(0, maxInterval)];
       if (incorrectAnswer !== correctAnswer && !incorrectAnswers.includes(incorrectAnswer)) {
         incorrectAnswers.push(incorrectAnswer);
       }
@@ -188,7 +188,8 @@ export default function QuizScreen({ navigation }) {
   };
 
   const handleViewScore = () => {
-    navigation.navigate('Score', { score });
+    navigation.navigate('ScoreTab', { score });
+
     setQuizStarted(false);
     setCompleted(false);
     setCurrentQuestion(0);
@@ -204,11 +205,50 @@ export default function QuizScreen({ navigation }) {
     }, 500);
   };
 
+  const handleRadioChange = (value) => {
+    setChecked(value);
+    if (value === 'first') {
+      setMaxInterval(5);
+    } else if (value === 'second') {
+      setMaxInterval(10);
+    } else if (value === 'third') {
+      setMaxInterval(13);
+    }
+  };
+
+  const [checked, setChecked] = useState('first');
+
   return (
     <View style={styles.container}>
       {!quizStarted && !completed && (
         <>
           <Text style={styles.title}>Ear Training Quiz</Text>
+          <View style={styles.radioContainer}>
+            <View style={styles.radioButton}>
+              <RadioButton
+                value="first"
+                status={checked === 'first' ? 'checked' : 'unchecked'}
+                onPress={() => handleRadioChange('first')}
+              />
+              <Text>First level</Text>
+            </View>
+            <View style={styles.radioButton}>
+              <RadioButton
+                value="second"
+                status={checked === 'second' ? 'checked' : 'unchecked'}
+                onPress={() => handleRadioChange('second')}
+              />
+              <Text>Second level</Text>
+            </View>
+            <View style={styles.radioButton}>
+              <RadioButton
+                value="third"
+                status={checked === 'third' ? 'checked' : 'unchecked'}
+                onPress={() => handleRadioChange('third')}
+              />
+              <Text>Third level</Text>
+            </View>
+          </View>
           <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
             <Text style={styles.buttonText}>Start Quiz</Text>
           </TouchableOpacity>
@@ -236,15 +276,11 @@ export default function QuizScreen({ navigation }) {
             </TouchableOpacity>
           ))}
           <View style={styles.navigation}>
-            {/*<TouchableOpacity onPress={goToPreviousQuestion}>
-              <Text>Previous</Text>
-            </TouchableOpacity>
-            <Text>
-              {currentQuestion + 1}/{questions.length} Question
-            </Text> */}
+            <Text>{currentQuestion + 1}/{questions.length} Question</Text>
             <TouchableOpacity
               onPress={goToNextQuestion}
-              disabled={selectedAnswer === null}>
+              disabled={selectedAnswer === null}
+            >
               <Text>Next</Text>
             </TouchableOpacity>
           </View>
@@ -260,6 +296,7 @@ export default function QuizScreen({ navigation }) {
       )}
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -309,5 +346,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     marginTop: 20,
+  },
+  radioContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
   },
 });

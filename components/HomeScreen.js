@@ -5,7 +5,7 @@ export function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Score')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ScoreTab')}>
         <Text style={styles.buttonText}>Go to Score</Text>
       </TouchableOpacity>
       {/* Add more components as needed */}
