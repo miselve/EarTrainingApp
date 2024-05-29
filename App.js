@@ -8,6 +8,9 @@ import CustomDrawerContent from './components/structs/CustomDrawerContent';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
+//export const gradientColors = ['#348F50','#56B4D3'];
+export const gradientColors = ['#e65c00','#F9D423'];
+
 function MainDrawer() {
   return (
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
@@ -28,4 +31,6 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+
+  
 }

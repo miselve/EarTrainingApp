@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
+import GradientBackground from './GradientBackground';
 
 export function ScoreTab({ navigation, route }) {
   //let score = route && route.params !== null && route.params?.score !== undefined ? route.params?.score : 0;
@@ -16,6 +17,7 @@ export function ScoreTab({ navigation, route }) {
   ];
 
   return (
+    <GradientBackground>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{ fontSize: 30, padding: '2%' }}>Score</Text>
       <PieChart
@@ -23,7 +25,7 @@ export function ScoreTab({ navigation, route }) {
         innerRadius={100}
         data={pieData}
         centerLabelComponent={() => {
-          return <Text style={{ fontSize: 30 }}>{score}</Text>;
+          return <Text style={{ fontSize: 30 }}>{score + "%"}</Text>;
         }}
       />
       <View style={styles.buttonContainer}>
@@ -38,6 +40,7 @@ export function ScoreTab({ navigation, route }) {
         </TouchableOpacity>
       </View>
     </View>
+    </GradientBackground>
   );
 }
 

@@ -13,6 +13,7 @@ import Notes from "./structs/Notes";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { PieChart } from "react-native-gifted-charts";
 import Labelrow2 from "./structs/Labelrow2";
+import GradientBackground from "./GradientBackground";
 
 export function TheoryScreen({ navigation }) {
   const [backwardOpacity1, setBackwardOpacity1] = useState(0.5);
@@ -116,6 +117,7 @@ export function TheoryScreen({ navigation }) {
   }, [noteValue2]);
 
   return (
+    <GradientBackground>
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         {/*<TouchableOpacity
@@ -189,6 +191,7 @@ export function TheoryScreen({ navigation }) {
         />
       </View>
     </View>
+    </GradientBackground>
   );
 }
 

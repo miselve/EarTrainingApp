@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Audio } from 'expo-av';
+import GradientBackground from './GradientBackground';
 
 // Sound files for each note
 export const soundFiles = {
@@ -219,82 +220,84 @@ export default function QuizScreen({ navigation }) {
   const [checked, setChecked] = useState('first');
 
   return (
-    <View style={styles.container}>
-      {!quizStarted && !completed && (
-        <>
-          <Text style={styles.title}>Ear Training Quiz</Text>
-          <View style={styles.radioContainer}>
-            <View style={styles.radioButton}>
-              <RadioButton
-                value="first"
-                status={checked === 'first' ? 'checked' : 'unchecked'}
-                onPress={() => handleRadioChange('first')}
-              />
-              <Text>First level</Text>
+    <GradientBackground>
+      <View style={styles.container}>
+        {!quizStarted && !completed && (
+          <>
+            <Text style={styles.title}>Ear Training Quiz</Text>
+            <View style={styles.radioContainer}>
+              <View style={styles.radioButton}>
+                <RadioButton
+                  value="first"
+                  status={checked === 'first' ? 'checked' : 'unchecked'}
+                  onPress={() => handleRadioChange('first')}
+                />
+                <Text>First level</Text>
+              </View>
+              <View style={styles.radioButton}>
+                <RadioButton
+                  value="second"
+                  status={checked === 'second' ? 'checked' : 'unchecked'}
+                  onPress={() => handleRadioChange('second')}
+                />
+                <Text>Second level</Text>
+              </View>
+              <View style={styles.radioButton}>
+                <RadioButton
+                  value="third"
+                  status={checked === 'third' ? 'checked' : 'unchecked'}
+                  onPress={() => handleRadioChange('third')}
+                />
+                <Text>Third level</Text>
+              </View>
             </View>
-            <View style={styles.radioButton}>
-              <RadioButton
-                value="second"
-                status={checked === 'second' ? 'checked' : 'unchecked'}
-                onPress={() => handleRadioChange('second')}
-              />
-              <Text>Second level</Text>
-            </View>
-            <View style={styles.radioButton}>
-              <RadioButton
-                value="third"
-                status={checked === 'third' ? 'checked' : 'unchecked'}
-                onPress={() => handleRadioChange('third')}
-              />
-              <Text>Third level</Text>
-            </View>
-          </View>
-          <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
-            <Text style={styles.buttonText}>Start Quiz</Text>
-          </TouchableOpacity>
-        </>
-      )}
-      {quizStarted && !completed && (
-        <>
-          <Text style={styles.question}>{questions[currentQuestion].question}</Text>
-          <TouchableOpacity style={styles.playButton} onPress={handlePlayInterval}>
-            <Text style={styles.buttonText}>Play Interval</Text>
-          </TouchableOpacity>
-          {questions[currentQuestion].answers.map((answer, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.answerButton,
-                {
-                  backgroundColor: selectedAnswer === answer ? 'lightblue' : 'white',
-                },
-              ]}
-              onPress={() => handleAnswer(answer)}
-              disabled={selectedAnswer !== null}
-            >
-              <Text>{answer}</Text>
+            <TouchableOpacity style={styles.button} onPress={handleStartQuiz}>
+              <Text style={styles.buttonText}>Start Quiz</Text>
             </TouchableOpacity>
-          ))}
-          <View style={styles.navigation}>
-            <Text>{currentQuestion + 1}/{questions.length} Question</Text>
-            <TouchableOpacity
-              onPress={goToNextQuestion}
-              disabled={selectedAnswer === null}
-            >
-              <Text>Next</Text>
+          </>
+        )}
+        {quizStarted && !completed && (
+          <>
+            <Text style={styles.question}>{questions[currentQuestion].question}</Text>
+            <TouchableOpacity style={styles.playButton} onPress={handlePlayInterval}>
+              <Text style={styles.buttonText}>Play Interval</Text>
             </TouchableOpacity>
-          </View>
-        </>
-      )}
-      {completed && (
-        <>
-          <Text style={styles.title}>Quiz Completed!</Text>
-          <TouchableOpacity style={styles.button} onPress={handleViewScore}>
-            <Text style={styles.buttonText}>View Score</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    </View>
+            {questions[currentQuestion].answers.map((answer, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.answerButton,
+                  {
+                    backgroundColor: selectedAnswer === answer ? 'lightblue' : 'white',
+                  },
+                ]}
+                onPress={() => handleAnswer(answer)}
+                disabled={selectedAnswer !== null}
+              >
+                <Text>{answer}</Text>
+              </TouchableOpacity>
+            ))}
+            <View style={styles.navigation}>
+              <Text>{currentQuestion + 1}/{questions.length} Question</Text>
+              <TouchableOpacity
+                onPress={goToNextQuestion}
+                disabled={selectedAnswer === null}
+              >
+                <Text>Next</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+        {completed && (
+          <>
+            <Text style={styles.title}>Quiz Completed!</Text>
+            <TouchableOpacity style={styles.button} onPress={handleViewScore}>
+              <Text style={styles.buttonText}>View Score</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
+    </GradientBackground>
   );
 
 }
@@ -324,6 +327,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   title: {
+    fontWeight: 'bold',
     fontSize: 24,
     marginBottom: 30,
   },
@@ -331,6 +335,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    justifyContent: 'center',
+    textAlign:'center',
+    alignItems: 'center'
   },
   answerButton: {
     borderWidth: 1,
@@ -355,6 +362,6 @@ const styles = StyleSheet.create({
   radioButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: -3,  // Reduced margin to decrease space between radio buttons
   },
 });
