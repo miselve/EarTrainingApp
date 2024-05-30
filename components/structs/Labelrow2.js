@@ -17,7 +17,7 @@ const soundFiles = {
   10: require("../../assets/sounds/Minor7th.wav"),
   11: require("../../assets/sounds/Major7th.wav"),
   12: require("../../assets/sounds/Octave.wav"),
-  13: require("../../assets/sounds/0.wav"),
+  13: require("../../assets/sounds/0.wav"), // change files here for descending songs
   14: require("../../assets/sounds/1.wav"),
   15: require("../../assets/sounds/2.wav"),
   16: require("../../assets/sounds/3.wav"),
@@ -34,6 +34,9 @@ const soundFiles = {
 };
 
 const Labelrow2 = ({ labeltext, note }) => {
+  if (note === 13) {
+    return null; 
+  }
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
 
@@ -112,7 +115,7 @@ const Labelrow2 = ({ labeltext, note }) => {
 const styles = StyleSheet.create({
   TitleLabel: {
     fontSize: 16,
-    fontWeight: "bold",
+   // fontWeight: "bold",
     textAlign: "center",
     flex: 1,
   },

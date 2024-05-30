@@ -41,7 +41,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
         <Text>{title}</Text>
         <AntDesign
           name={expanded ? "minuscircle" : "pluscircleo"}
-          size={24}
+          size={30}
           color="black"
         />
       </TouchableOpacity>
