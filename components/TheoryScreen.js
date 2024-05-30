@@ -101,8 +101,8 @@ export function TheoryScreen({ navigation }) {
       title: "Related Tracks",
       content: (
         <View>
-          <Labelrow2 labeltext={"track 1   "} />
-          <Labelrow2 labeltext={"track 2   "} />
+          <Labelrow2 labeltext={strings[currentIndex]} note={noteValue2} />
+          <Labelrow2 labeltext={strings[currentIndex]} note={noteValue2}/>
         </View>
       ),
     },

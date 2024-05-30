@@ -39,7 +39,7 @@ const getNoteImage = (note) => {
       return null;
   }
 };
-const playSound = async (firstNote, secondNote) => {
+export const playSound = async (firstNote, secondNote) => {
   // Play the first sound
   const { sound: sound1 } = await Audio.Sound.createAsync(soundFiles[firstNote]);
   await sound1.playAsync();
