@@ -6,6 +6,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
+  Modal,
+  Button,
 } from "react-native";
 import Accordion from "./structs/Accordion";
 import Labelrow from "./structs/Labelrow";
@@ -20,6 +22,7 @@ export function TheoryScreen({ navigation }) {
   const [backwardOpacity2, setBackwardOpacity2] = useState(1);
   const [noteValue1, setNote1Value] = useState(0);
   const [noteValue2, setNote2Value] = useState(0);
+  const [quizLevel, setQuizLevel] = useState(1)
   const [strings, setStrings] = useState([
     "Perfect unison",
     "Minor second",
@@ -112,8 +115,9 @@ export function TheoryScreen({ navigation }) {
       setBackwardOpacity1(0.5);
     }
   };
+  const [showModal, setShowModal] = useState(false); // State for showing modal
   const changeString2 = () => {
-    if (noteValue2 == 12) {
+    if (noteValue2 === 12) {
       setCurrentIndex(12);
       setBackwardOpacity2(0.5);
     } else {
@@ -121,26 +125,54 @@ export function TheoryScreen({ navigation }) {
       setBackwardOpacity2(1);
       setBackwardOpacity1(1);
     }
-    if (noteValue2 == 11) {
+    if (noteValue2 === 11) {
       setBackwardOpacity2(0.5);
+    }
+    if (noteValue2 === 4) {
+      // Condition to show modal
+      setQuizLevel(1);
+      setShowModal(true);
+      
+    }
+    else if (noteValue2 === 9){
+      setQuizLevel(2);
+      setShowModal(true);
+    }
+    else if (noteValue2 === 12){
+      setQuizLevel(3);
+      setShowModal(true);
+    }
+     else {
+      setShowModal(false);
     }
   };
 
   const accordionData = [
     {
-      title: (<View style = {{fontWeight: "bold"}}>{strings[currentIndex] + " ascending Theory"}</View>),
+      title: (
+        <View style={{ fontWeight: "bold" }}>
+          {strings[currentIndex] + " ascending Theory"}
+        </View>
+      ),
       content: theory[currentIndex],
     },
     {
-      title: (<View style = {{fontWeight: "bold"}}>{strings[currentIndex] + " descending Theory"}</View>),
+      title: (
+        <View style={{ fontWeight: "bold" }}>
+          {strings[currentIndex] + " descending Theory"}
+        </View>
+      ),
       content: theory[currentIndex + 13],
     },
     {
-      title: (<View style = {{fontWeight: "bold"}}>Related Tracks</View>),
+      title: <View style={{ fontWeight: "bold" }}>Related Tracks</View>,
       content: (
         <View>
           <Labelrow2 labeltext={songs[currentIndex]} note={noteValue2} />
-          <Labelrow2 labeltext={songs[currentIndex + 13]} note={noteValue2 + 13} />
+          <Labelrow2
+            labeltext={songs[currentIndex + 13]}
+            note={noteValue2 + 13}
+          />
         </View>
       ),
     },
@@ -228,6 +260,28 @@ export function TheoryScreen({ navigation }) {
             }}
           />
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={showModal}
+          onRequestClose={() => setShowModal(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={{ paddingVertical: 50, textAlign: "center" }}>
+                <Text style={{ fontWeight: "bold" }}>Knowledge Check:</Text>
+                {"\n\n"}
+                At this point, you should be able to complete quiz level {quizLevel}.
+              </Text>
+              <View style={styles.buttonContainer3}>
+                <Button title="Close" onPress={() => setShowModal(false)} />
+              </View>
+              <View style={styles.buttonContainer4}>
+              <Button title="Take Quiz" onPress={() => setShowModal(false)} />
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </GradientBackground>
   );
@@ -290,5 +344,32 @@ const styles = StyleSheet.create({
   },
   iconContainer2: {
     marginLeft: 15,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust opacity as needed
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonContainer3: {
+    //flexDirection: "row",
+    position: "absolute",
+    bottom: 0,
+    paddingVertical: 5,
+    right: 20,
+    //paddingHorizontal: 20,
+    //borderRadius: 5,
+  },
+  buttonContainer4: {
+    position: "absolute",
+    bottom: 0,
+    paddingVertical: 5,
+    left: 20,
   },
 });
