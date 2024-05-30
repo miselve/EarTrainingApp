@@ -102,7 +102,7 @@ export function TheoryScreen({ navigation }) {
       content: (
         <View>
           <Labelrow2 labeltext={strings[currentIndex]} note={noteValue2} />
-          <Labelrow2 labeltext={strings[currentIndex]} note={noteValue2}/>
+          <Labelrow2 labeltext={strings[currentIndex]} note={noteValue2+13}/>
         </View>
       ),
     },
