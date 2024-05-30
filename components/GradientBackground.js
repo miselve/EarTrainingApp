@@ -7,7 +7,7 @@ import { gradientColors } from '../App';
 export const GradientBackground = ({ children }) => {
   return (
     <LinearGradient
-      colors={gradientColors} // Define your gradient colors
+      colors={gradientColors} // Define gradient colors
       start={{ x: 0, y: 0 }} // Starting point of the gradient
       end={{ x: 1, y: 1 }} // Ending point of the gradient
       style={styles.gradient}
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'center',
     //alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Optional: Adds a white overlay with opacity to improve text visibility
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Adds a white overlay with opacity to improve text visibility
     width: '100%', // Ensures the overlay covers the entire screen
   },
 });
