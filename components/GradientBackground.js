@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'center',
     //alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)', // Optional: Adds a white overlay with opacity to improve text visibility
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Optional: Adds a white overlay with opacity to improve text visibility
     width: '100%', // Ensures the overlay covers the entire screen
   },
 });

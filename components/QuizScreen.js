@@ -278,12 +278,13 @@ export default function QuizScreen({ navigation }) {
               </TouchableOpacity>
             ))}
             <View style={styles.navigation}>
-              <Text>{currentQuestion + 1}/{questions.length} Question</Text>
+              <Text style={{fontSize: 18}}  >{currentQuestion + 1}/{questions.length} Question</Text>
               <TouchableOpacity
                 onPress={goToNextQuestion}
                 disabled={selectedAnswer === null}
+                style={styles.button2}
               >
-                <Text>Next</Text>
+                <Text style={styles.buttonText}>Next</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -315,12 +316,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 20,
   },
+  button2: {
+    backgroundColor: '#007bff',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 5,
+    //marginTop: 20,
+  },
   playButton: {
     backgroundColor: '#28a745',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
     marginTop: 10,
+    marginBottom: 10
   },
   buttonText: {
     color: 'white',
@@ -356,7 +365,7 @@ const styles = StyleSheet.create({
   },
   radioContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'left',
     marginBottom: 20,
   },
   radioButton: {

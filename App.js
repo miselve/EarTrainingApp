@@ -9,7 +9,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 //export const gradientColors = ['#348F50','#56B4D3'];
-export const gradientColors = ['#e65c00','#F9D423'];
+export const gradientColors = ['#2980B9','#ffffff'];
 
 function MainDrawer() {
   return (

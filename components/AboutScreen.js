@@ -37,7 +37,7 @@ export function AboutScreen({ navigation }) {
       <View style={styles.nameContainer}>
         <View style={styles.iconsContainer}>
           <Text style={styles.title2}>Gerasimos Harizanis</Text>
-          <TouchableOpacity onPress={() => openLinkedIn('')}>
+          <TouchableOpacity onPress={() => openLinkedIn('https://www.linkedin.com/in/gerasimos-harizanis-b7699b308/')}>
             <Ionicons name="logo-linkedin" size={22} margin={10} marginRight={10} color="#0077b5" />
           </TouchableOpacity>
           <Text>  </Text>

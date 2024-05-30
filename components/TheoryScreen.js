@@ -125,24 +125,24 @@ export function TheoryScreen({ navigation }) {
       setBackwardOpacity2(1);
       setBackwardOpacity1(1);
     }
-    if (noteValue2 === 11) {
+    if (noteValue2 === 12) {
       setBackwardOpacity2(0.5);
     }
     if (noteValue2 === 4) {
       // Condition to show modal
       setQuizLevel(1);
       setShowModal(true);
-      
+
     }
-    else if (noteValue2 === 9){
+    else if (noteValue2 === 9) {
       setQuizLevel(2);
       setShowModal(true);
     }
-    else if (noteValue2 === 12){
+    else if (noteValue2 === 12) {
       setQuizLevel(3);
       setShowModal(true);
     }
-     else {
+    else {
       setShowModal(false);
     }
   };
@@ -185,6 +185,11 @@ export function TheoryScreen({ navigation }) {
       { value: 100 - completionPercentage, color: "lightgray" },
     ]);
   }, [noteValue2]);
+
+  function HandleNavigation() {
+    navigation.navigate("Quiz")
+    setShowModal(false)
+  }
 
   return (
     <GradientBackground>
@@ -268,16 +273,21 @@ export function TheoryScreen({ navigation }) {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={{ paddingVertical: 50, textAlign: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>Knowledge Check:</Text>
+              <Text style={{ paddingBottom: 50, textAlign: "center" }}>
+                <Text style={{ fontWeight: "bold", fontSize:24 }}>Knowledge Check:</Text>
                 {"\n\n"}
-                At this point, you should be able to complete quiz level {quizLevel}.
+                At this point, you should be able to complete Quiz Level {quizLevel}.{"\n\n"}
               </Text>
               <View style={styles.buttonContainer3}>
-                <Button title="Close" onPress={() => setShowModal(false)} />
+
+                <TouchableOpacity style={styles.button_close} onPress={() => setShowModal(false)}>
+                  <Text style={styles.buttonText}>Close</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.buttonContainer4}>
-              <Button title="Take Quiz" onPress={() => setShowModal(false)} />
+              <TouchableOpacity style={styles.button} onPress={() => HandleNavigation()}>
+                  <Text style={styles.buttonText}>Take Quiz</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -306,6 +316,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
   },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  button_close: {
+    backgroundColor: '#d9534f',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
   buttonContainer2: {
     flexDirection: "row",
     position: "absolute",
@@ -320,11 +346,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: "15%",
     fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "#2196F3",
-    padding: 10,
-    borderRadius: 5,
   },
   buttonText: {
     color: "white",
@@ -349,11 +370,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust opacity as needed
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
   },
   modalContent: {
     backgroundColor: "white",
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
     alignItems: "center",
   },
