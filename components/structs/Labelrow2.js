@@ -116,17 +116,18 @@ const styles = StyleSheet.create({
   TitleLabel: {
     fontSize: 12,
    // fontWeight: "bold",
-    textAlign: "center",
+    textAlign: 'auto',
     flex: 1,
   },
   iconContainer: {
     marginLeft: 0,
   },
   container2: {
+    paddingTop: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
+    //paddingHorizontal: 16,
   },
   buttonPlay: {
     left: 16,
