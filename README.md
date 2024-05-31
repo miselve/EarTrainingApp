@@ -32,6 +32,7 @@ yes | sdkmanager --licenses
 4. Install Node dependencies & EAS, Expo:
 ```
 cd EarTrainingApp-main/
+npm install
 npm install --global eas-cli expo
 ```
 
