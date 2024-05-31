@@ -27,7 +27,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
 
   const heightInterpolate = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 100], // Change 100 to your desired expanded height
+    outputRange: [0, 100], // Adjust 150 to fit your content height
   });
 
   const animatedStyles = {
@@ -46,7 +46,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
         />
       </TouchableOpacity>
       <Animated.View style={[styles.content, animatedStyles]}>
-        <Text>{content}</Text>
+        <View>{content}</View>
       </Animated.View>
     </View>
   );
@@ -60,8 +60,8 @@ const Accordion = ({ data }) => {
       {data.map((item, index) => (
         <Accord
           key={index}
-          title={item.title}
-          content={item.content}
+          title={<Text>{item.title}</Text>}
+          content={<Text>{item.content}</Text>}
           index={index}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}

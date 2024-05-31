@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, Button } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { soundFiles } from "../QuizScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { Audio } from "expo-av";
@@ -73,11 +73,9 @@ const Notes = ({ note1, note2 }) => {
       <Image source={getNoteImage(note1)} style={{ width: 48, height: 130 }} />
       <Image source={getNoteImage(note2)} style={{ width: 48, height: 130 }} />
       <View style={styles.buttonContainer}>
-        <Button
-          onPress={() => playSound(note1, note2)}
-          title={<AntDesign name="play" size={35} color="#2196F3" />}
-          color="transparent"
-        />
+        <TouchableOpacity style={styles.button} onPress={() => playSound(note1, note2)}>
+          <AntDesign name="play" size={35} color="#2196F3" />
+        </TouchableOpacity>
       </View>
     </View>
   );

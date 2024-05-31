@@ -4,10 +4,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
-  Image,
   Modal,
-  Button,
 } from "react-native";
 import Accordion from "./structs/Accordion";
 import Labelrow from "./structs/Labelrow";
@@ -150,22 +147,22 @@ export function TheoryScreen({ navigation }) {
   const accordionData = [
     {
       title: (
-        <View style={{ fontWeight: "bold" }}>
+        <Text style={{ fontWeight: "bold" }}>
           {strings[currentIndex] + " ascending Theory"}
-        </View>
+        </Text>
       ),
       content: theory[currentIndex],
     },
     {
       title: (
-        <View style={{ fontWeight: "bold" }}>
+        <Text style={{ fontWeight: "bold" }}>
           {strings[currentIndex] + " descending Theory"}
-        </View>
+        </Text>
       ),
       content: theory[currentIndex + 13],
     },
     {
-      title: <View style={{ fontWeight: "bold" }}>Related Tracks</View>,
+      title: <Text style={{ fontWeight: "bold" }}>Related Tracks</Text>,
       content: (
         <View>
           <Labelrow2 labeltext={songs[currentIndex]} note={noteValue2} />
