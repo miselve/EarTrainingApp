@@ -31,7 +31,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex, scrollTo
 
   const heightInterpolate = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 100], // Adjust 100 to fit your content height
+    outputRange: [0, 105], // Adjust 100 to fit your content height
   });
 
   const animatedStyles = {
