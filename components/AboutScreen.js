@@ -19,7 +19,7 @@ export function AboutScreen({ navigation }) {
       <Image source={require('../assets/favicon.png')} style={styles.topImage} />
       <Text style={styles.title}>About this App</Text>
       <Text style={styles.body}>
-        This app was crafted using React Native by Michail Selvesakis & Gerasimos Harizanis as a project for 'Educational Innovation and Application Development,' a component of Democritus University of Thrace's curriculum.
+        This app was crafted using React Native $ Expo by Michail Selvesakis & Gerasimos Harizanis as a project for 'Educational Innovation and Application Development', a component of Democritus University of Thrace's curriculum.
       </Text>
       <Text style={styles.title}>About us</Text>
       <View style={styles.nameContainer}>
