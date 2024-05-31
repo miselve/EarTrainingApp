@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
+const Accord = ({ title, content, index, currentIndex, setCurrentIndex, scrollToEnd }) => {
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
   const expanded = index === currentIndex;
@@ -18,7 +18,11 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
       toValue: expanded ? 1 : 0,
       duration: 300,
       useNativeDriver: false,
-    }).start();
+    }).start(() => {
+      if (expanded) {
+        scrollToEnd(); // Scroll to end when expanded
+      }
+    });
   }, [expanded, animation]);
 
   const toggleAccordion = () => {
@@ -27,7 +31,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
 
   const heightInterpolate = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 100], // Adjust 150 to fit your content height
+    outputRange: [0, 100], // Adjust 100 to fit your content height
   });
 
   const animatedStyles = {
@@ -52,7 +56,7 @@ const Accord = ({ title, content, index, currentIndex, setCurrentIndex }) => {
   );
 };
 
-const Accordion = ({ data }) => {
+const Accordion = ({ data, scrollToEnd }) => {
   const [currentIndex, setCurrentIndex] = useState(null);
 
   return (
@@ -65,6 +69,7 @@ const Accordion = ({ data }) => {
           index={index}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
+          scrollToEnd={scrollToEnd} // Pass scrollToEnd function
         />
       ))}
     </View>

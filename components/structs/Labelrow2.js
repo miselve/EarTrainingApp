@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons"; 
 import { Audio } from "expo-av";
@@ -35,7 +35,7 @@ const soundFiles = {
 
 const Labelrow2 = ({ labeltext, note }) => {
   if (note === 13) {
-    return null; 
+    return null;  
   }
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState(null);
@@ -96,6 +96,13 @@ const Labelrow2 = ({ labeltext, note }) => {
       playSound(note);
     }
   };
+
+  useEffect(() => {
+    if (isPlaying) {
+      stopSound();
+      setIsPlaying(false);
+    }
+  }, [labeltext]);
 
   return (
     <View style={styles.container2}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -188,11 +188,14 @@ export function TheoryScreen({ navigation }) {
     navigation.navigate("Quiz")
     setShowModal(false)
   }
-
+  const scrollViewRef = useRef(null); // Ref for ScrollView
+  const scrollToEnd = () => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  };
   return (
     <GradientBackground>
       <View style={styles.container}>
-        <ScrollView style={{ maxHeight: '100%' }}>
+        <ScrollView style={{ maxHeight: '100%' }} ref={scrollViewRef}>
 
           <Labelrow
             labeltext={strings[currentIndex] + " ascending"}
@@ -208,9 +211,13 @@ export function TheoryScreen({ navigation }) {
             />
             <Notes note1={noteValue2} note2={noteValue1} />
             <View style={styles.accordionContainer}>
-              <Accordion data={accordionData} />
+            <Accordion
+            data={accordionData}
+            scrollToEnd={scrollToEnd} // Pass scrollToEnd function
+          />
             </View>
           </View>
+          
         </ScrollView>
         <View style={{ maxHeight: '50%', justifyContent: 'space-between' }}>
           <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', paddingBottom: 15}}>
@@ -272,7 +279,7 @@ export function TheoryScreen({ navigation }) {
                   <Text style={{ paddingBottom: 50, textAlign: "center" }}>
                     <Text style={{ fontWeight: "bold", fontSize: 24 }}>Knowledge Check:</Text>
                     {"\n\n"}
-                    At this point, you should be able to complete Quiz Level {quizLevel}.{"\n\n"}
+                    At this point,{"\n"}you should be able to complete Quiz Level {quizLevel}.{"\n\n"}
                   </Text>
                   <View style={styles.buttonContainer3}>
 
