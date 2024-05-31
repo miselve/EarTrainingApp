@@ -114,7 +114,7 @@ const Labelrow2 = ({ labeltext, note }) => {
 
 const styles = StyleSheet.create({
   TitleLabel: {
-    fontSize: 16,
+    fontSize: 12,
    // fontWeight: "bold",
     textAlign: "center",
     flex: 1,

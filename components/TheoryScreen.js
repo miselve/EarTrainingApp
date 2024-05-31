@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
+  ScrollView
 } from "react-native";
 import Accordion from "./structs/Accordion";
 import Labelrow from "./structs/Labelrow";
@@ -162,7 +163,7 @@ export function TheoryScreen({ navigation }) {
       content: theory[currentIndex + 13],
     },
     {
-      title: <Text style={{ fontWeight: "bold" }}>Related Tracks</Text>,
+      title: <Text style={{ fontWeight: "bold"}}>Related Tracks</Text>,
       content: (
         <View>
           <Labelrow2 labeltext={songs[currentIndex]} note={noteValue2} />
@@ -191,104 +192,104 @@ export function TheoryScreen({ navigation }) {
   return (
     <GradientBackground>
       <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-          {/*<TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text style={styles.buttonText}>Home</Text>
-        </TouchableOpacity>*/}
-        </View>
-        <Labelrow
-          labeltext={strings[currentIndex] + " ascending"}
-          firstNote={0}
-          secondNote={noteValue2 - 1}
-        />
-        <View>
-          <Notes note1={noteValue1} note2={noteValue2} />
-          <Labelrow
-            labeltext={strings[currentIndex] + " descending"}
-            firstNote={noteValue2 - 1}
-            secondNote={0}
-          />
-          <Notes note1={noteValue2} note2={noteValue1} />
-          <View style={styles.accordionContainer}>
-            <Accordion data={accordionData} />
-          </View>
-        </View>
-        <View style={styles.buttonContainer1}>
-          <TouchableOpacity
-            onPress={() => {
-              if (noteValue2 === 0) {
-                setNote2Value(0);
-                changeString1();
-              } else {
-                setNote2Value(noteValue2 - 1);
-                changeString1();
-              }
-            }}
-            style={[styles.iconContainer1, { opacity: backwardOpacity1 }]}
-          >
-            <AntDesign name="banckward" size={35} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              if (noteValue2 === 12) {
-                setNote2Value(12);
-                changeString2();
-              } else {
-                setNote2Value(noteValue2 + 1);
-                changeString2();
-              }
-            }}
-            style={[styles.iconContainer2, { opacity: backwardOpacity2 }]}
-          >
-            <AntDesign name="forward" size={35} color="black" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer2}>
-          <Text style={styles.theoryCompletionText}> Theory Completion: </Text>
-          <PieChart
-            donut
-            innerRadius={38}
-            radius={50}
-            data={pieData}
-            centerLabelComponent={() => {
-              return (
-                <Text style={{ fontSize: 30 }}>
-                  {Math.floor((100 * noteValue2) / 12) + "%"}
-                </Text>
-              );
-            }}
-          />
-        </View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showModal}
-          onRequestClose={() => setShowModal(false)}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={{ paddingBottom: 50, textAlign: "center" }}>
-                <Text style={{ fontWeight: "bold", fontSize:24 }}>Knowledge Check:</Text>
-                {"\n\n"}
-                At this point, you should be able to complete Quiz Level {quizLevel}.{"\n\n"}
-              </Text>
-              <View style={styles.buttonContainer3}>
+        <ScrollView style={{ maxHeight: '100%' }}>
 
-                <TouchableOpacity style={styles.button_close} onPress={() => setShowModal(false)}>
-                  <Text style={styles.buttonText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.buttonContainer4}>
-              <TouchableOpacity style={styles.button} onPress={() => HandleNavigation()}>
-                  <Text style={styles.buttonText}>Take Quiz</Text>
-                </TouchableOpacity>
-              </View>
+          <Labelrow
+            labeltext={strings[currentIndex] + " ascending"}
+            firstNote={0}
+            secondNote={noteValue2 - 1}
+          />
+          <View>
+            <Notes note1={noteValue1} note2={noteValue2} />
+            <Labelrow
+              labeltext={strings[currentIndex] + " descending"}
+              firstNote={noteValue2 - 1}
+              secondNote={0}
+            />
+            <Notes note1={noteValue2} note2={noteValue1} />
+            <View style={styles.accordionContainer}>
+              <Accordion data={accordionData} />
             </View>
           </View>
-        </Modal>
+        </ScrollView>
+        <View style={{ maxHeight: '50%', justifyContent: 'space-between' }}>
+          <View style={{ justifyContent: 'space-evenly', flexDirection: 'row' }}>
+            <View style={styles.buttonContainer1}>
+
+              <TouchableOpacity
+                onPress={() => {
+                  if (noteValue2 === 0) {
+                    setNote2Value(0);
+                    changeString1();
+                  } else {
+                    setNote2Value(noteValue2 - 1);
+                    changeString1();
+                  }
+                }}
+                style={[styles.iconContainer1, { opacity: backwardOpacity1 }]}
+              >
+                <AntDesign name="banckward" size={35} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  if (noteValue2 === 12) {
+                    setNote2Value(12);
+                    changeString2();
+                  } else {
+                    setNote2Value(noteValue2 + 1);
+                    changeString2();
+                  }
+                }}
+                style={[styles.iconContainer2, { opacity: backwardOpacity2 }]}
+              >
+                <AntDesign name="forward" size={35} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer2}>
+              <Text style={styles.theoryCompletionText}> Theory Completion: </Text>
+              <PieChart
+                donut
+                innerRadius={38}
+                radius={50}
+                data={pieData}
+                centerLabelComponent={() => {
+                  return (
+                    <Text style={{ fontSize: 30 }}>
+                      {Math.floor((100 * noteValue2) / 12) + "%"}
+                    </Text>
+                  );
+                }}
+              />
+            </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={showModal}
+              onRequestClose={() => setShowModal(false)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={{ paddingBottom: 50, textAlign: "center" }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 24 }}>Knowledge Check:</Text>
+                    {"\n\n"}
+                    At this point, you should be able to complete Quiz Level {quizLevel}.{"\n\n"}
+                  </Text>
+                  <View style={styles.buttonContainer3}>
+
+                    <TouchableOpacity style={styles.button_close} onPress={() => setShowModal(false)}>
+                      <Text style={styles.buttonText}>Close</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.buttonContainer4}>
+                    <TouchableOpacity style={styles.button} onPress={() => HandleNavigation()}>
+                      <Text style={styles.buttonText}>Take Quiz</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          </View>
+        </View>
       </View>
     </GradientBackground>
   );
@@ -307,11 +308,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer1: {
     flexDirection: "row",
-    position: "absolute",
-    bottom: "4.6%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //position: "absolute",
+    //bottom: "4.6%",
+    //paddingVertical: 10,
+    //paddingHorizontal: 20,
+    //borderRadius: 5,
   },
   button: {
     backgroundColor: '#2196F3',
@@ -331,18 +334,21 @@ const styles = StyleSheet.create({
   },
   buttonContainer2: {
     flexDirection: "row",
-    position: "absolute",
-    bottom: 10,
-    right: 0,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //position: "absolute",
+    //bottom: 10,
+    //right: 0,
+    //paddingVertical: 10,
+    //paddingHorizontal: 20,
+    //borderRadius: 5,
   },
   theoryCompletionText: {
-    marginRight: 10,
+    //marginRight: 10,
     fontSize: 16,
-    marginTop: "15%",
+    //marginTop: "15%",
     fontWeight: "bold",
+    alignItems: 'center',
   },
   buttonText: {
     color: "white",
@@ -367,7 +373,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "white",
