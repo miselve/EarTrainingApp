@@ -1,11 +1,56 @@
-# Sample Snack app
+# Ear Training App
+![icon](https://github.com/miselve/EarTrainingApp/assets/94703285/db3a7bf7-3f09-4092-89df-2c2929236ce0)
 
-Open the `App.js` file to start writing some code. You can preview the changes directly on your phone or tablet by scanning the **QR code** or use the iOS or Android emulators. When you're done, click **Save** and share the link!
+This app was crafted using React Native by Michail Selvesakis & Gerasimos Harizanis as a project for 'Educational Innovation and Application Development', a component of Democritus University of Thrace's curriculum.
 
-When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo cli](https://docs.expo.dev/get-started/installation/#expo-cli)).
+## App Features
+* Home Screen
+* Interactive Interval Theory lessons (Ascending - Descending Intervals)
+* Intuitive Musical Examples for each Interval
+* Multiple Quizzes (3 Different difficulty levels)
+* Score Tab to see User's Performance
 
-All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the `<>` button.
+## Build Instructions (Linux Enviroment)
 
-If you're having problems, you can tweet to us [@expo](https://twitter.com/expo) or ask in our [forums](https://forums.expo.dev/c/expo-dev-tools/61) or [Discord](https://chat.expo.dev/).
+To build this app locally you need to follow theese steps: (This example is for Debian-based Systems. Logged-in as root user)
 
-Snack is Open Source. You can find the code on the [GitHub repo](https://github.com/expo/snack).
+1. Install Dependencies:
+```
+apt install nodejs>=14.0.0 npm default-jre default-jdk android-sdk sdkmanager
+```
+
+2. Setup Enviroment Variables: (check if the Android SDK is actually installed there)
+```
+export ANDROID_HOME="/lib/android-sdk/"
+```
+3. Accept liscenses: (If the Build fails you may need to run it again)
+```
+cd /lib/android-sdk/
+yes | sdkmanager --licenses
+```
+
+4. Install Node dependencies & EAS, Expo:
+```
+cd EarTrainingApp-main/
+npm install --global eas-cli expo
+```
+
+5. Login to EAS using your Expo account:
+```
+eas login
+```
+6. Build APK
+```
+eas build -p android --profile preview --local
+```
+
+If the Build succeded the APK will be placed inside the project folder.
+
+## Troubleshooting
+If the Build fails, check the following errors-solutions:
+
+* ``` SDK location not found. Define a valid SDK location with an ANDROID_HOME environment variable ```<br>
+Make sure the Enviromental Variable is set correctly. You can check with ```echo $ANDROID_HOME```
+* ``` Failed to install the following Android SDK packages as some licences have not been accepted. ``` <br>
+Re-Do the 3rd Step
+
