@@ -213,7 +213,7 @@ export function TheoryScreen({ navigation }) {
           </View>
         </ScrollView>
         <View style={{ maxHeight: '50%', justifyContent: 'space-between' }}>
-          <View style={{ justifyContent: 'space-evenly', flexDirection: 'row' }}>
+          <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', paddingBottom: 15}}>
             <View style={styles.buttonContainer1}>
 
               <TouchableOpacity
