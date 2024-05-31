@@ -55,3 +55,13 @@ Make sure the Enviromental Variable is set correctly. You can check with ```echo
 * ``` Failed to install the following Android SDK packages as some licences have not been accepted. ``` <br>
 Re-Do the 3rd Step
 
+* Failing to initialize git: <br>
+Run
+```
+git rev-parse --git-dir
+```
+and then
+```
+git config --global --add safe.directory /home/michael/.local/share/Trash/files/EarTrainingApp-main
+```
+(Change the path according to the command's Output)
