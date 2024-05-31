@@ -96,7 +96,6 @@ export default function QuizScreen({ navigation }) {
       note2 = note1 - interval;
     }
 
-    console.log("note1 " + note1 + " note2 " + note2 + " interval " + interval);
     return { note1, note2, interval };
   };
 
@@ -272,7 +271,6 @@ export default function QuizScreen({ navigation }) {
                   },
                 ]}
                 onPress={() => handleAnswer(answer)}
-                disabled={selectedAnswer !== null}
               >
                 <Text>{answer}</Text>
               </TouchableOpacity>
@@ -321,7 +319,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5,
-    //marginTop: 20,
   },
   playButton: {
     backgroundColor: '#28a745',
