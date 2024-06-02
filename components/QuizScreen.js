@@ -4,7 +4,6 @@ import { RadioButton } from 'react-native-paper';
 import { Audio } from 'expo-av';
 import GradientBackground from './GradientBackground';
 
-// Sound files for each note
 export const soundFiles = {
   0: require('../assets/sounds/0.wav'),
   1: require('../assets/sounds/1.wav'),
@@ -33,7 +32,6 @@ export const soundFiles = {
   24: require('../assets/sounds/24.wav'),
 };
 
-// Function to play a sound
 const playSound = async (note) => {
   const soundObject = new Audio.Sound();
   try {
@@ -57,6 +55,7 @@ export default function QuizScreen({ navigation }) {
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [maxInterval, setMaxInterval] = useState(5);
+  const [feedback, setFeedback] = useState(null);  
 
   useEffect(() => {
     const setupAudio = async () => {
@@ -74,14 +73,12 @@ export default function QuizScreen({ navigation }) {
     setupAudio();
   }, []);
 
-  // Function to generate a random integer within a range
   function getRandomInt(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
   }
 
-  // Function to generate a random interval
   const generateRandomInterval = () => {
     const isAscending = Math.random() < 0.5;
     let note1, note2, interval;
@@ -99,7 +96,7 @@ export default function QuizScreen({ navigation }) {
     return { note1, note2, interval };
   };
 
-  // Function to shuffle array
+
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -108,14 +105,14 @@ export default function QuizScreen({ navigation }) {
     return array;
   };
 
-  // Function to generate question
+ 
   const generateQuestion = () => {
     const { note1, note2, interval } = generateRandomInterval();
 
-    // Define possible interval names
+    
     const intervalNames = ['Unison', 'Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Tritone', 'Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave'];
 
-    // Select the correct answer
+    
     const correctAnswer = intervalNames[interval];
 
     // Select three unique incorrect answers
@@ -142,7 +139,6 @@ export default function QuizScreen({ navigation }) {
     return question;
   };
 
-  // Function to generate multiple questions
   const generateQuestions = (count) => {
     const questions = [];
     for (let i = 0; i < count; i++) {
@@ -157,6 +153,7 @@ export default function QuizScreen({ navigation }) {
     setCurrentQuestion(0);
     setSelectedAnswer(null);
     setScore(0);
+    setFeedback(null); // Reset feedback state
     const generatedQuestions = generateQuestions(10); // Generate 10 interval questions
     setQuestions(generatedQuestions);
   };
@@ -170,20 +167,27 @@ export default function QuizScreen({ navigation }) {
 
     if (isCorrect) {
       setScore(score + 10);
-    }
-
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer(null);
+      setFeedback(true);  // Show correct answer feedback
+      setTimeout(() => {
+        if (currentQuestion < questions.length - 1) {
+          setCurrentQuestion(currentQuestion + 1);
+          setSelectedAnswer(null);
+          setFeedback(null);
+        } else {
+          setCompleted(true);
+        }
+      }, 1000);
     } else {
-      setCompleted(true);
-    }
-  };
-
-  const goToPreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setSelectedAnswer(null);
+      setFeedback(true);
+      setTimeout(() => {
+        if (currentQuestion < questions.length - 1) {
+          setCurrentQuestion(currentQuestion + 1);
+          setSelectedAnswer(null);
+          setFeedback(null);
+        } else {
+          setCompleted(true);
+        }
+      }, 1000);  
     }
   };
 
@@ -267,16 +271,24 @@ export default function QuizScreen({ navigation }) {
                 style={[
                   styles.answerButton,
                   {
-                    backgroundColor: selectedAnswer === answer ? 'lightblue' : 'white',
+                    backgroundColor:
+                      feedback && selectedAnswer === answer && selectedAnswer !== questions[currentQuestion].correctAnswer
+                        ? 'red'
+                        : feedback && questions[currentQuestion].correctAnswer === answer
+                        ? 'green'
+                        : selectedAnswer === answer
+                        ? 'lightgrey'
+                        : 'white',
                   },
                 ]}
                 onPress={() => handleAnswer(answer)}
+                disabled={!!feedback}  // Disable buttons if feedback is being shown
               >
                 <Text>{answer}</Text>
               </TouchableOpacity>
             ))}
             <View style={styles.navigation}>
-              <Text style={{fontSize: 18}}  >{currentQuestion + 1}/{questions.length} Question</Text>
+              <Text style={{ fontSize: 18 }}>{currentQuestion + 1}/{questions.length} Question</Text>
               <TouchableOpacity
                 onPress={goToNextQuestion}
                 disabled={selectedAnswer === null}
@@ -298,7 +310,6 @@ export default function QuizScreen({ navigation }) {
       </View>
     </GradientBackground>
   );
-
 }
 
 const styles = StyleSheet.create({
@@ -326,7 +337,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   buttonText: {
     color: 'white',
@@ -342,8 +353,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     justifyContent: 'center',
-    textAlign:'center',
-    alignItems: 'center'
+    textAlign: 'center',
+    alignItems: 'center',
   },
   answerButton: {
     borderWidth: 1,
